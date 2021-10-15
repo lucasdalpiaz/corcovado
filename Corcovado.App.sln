@@ -7,6 +7,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corcovado.App", "Corcovado.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corcovado.WebApi", "Corcovado.WebApi\Corcovado.WebApi.csproj", "{14FD3515-21F2-406F-97EE-EB7685497DED}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corcovado.Contexto", "Corcovado.Contexto\Corcovado.Contexto.csproj", "{FDD6B35C-161A-459E-A53E-1432B5AA9CC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corcovado.Modelos", "Corcovado.Modelos\Corcovado.Modelos.csproj", "{0242C468-D8E3-4B2E-96FB-65BB55E074F1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +25,14 @@ Global
 		{14FD3515-21F2-406F-97EE-EB7685497DED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{14FD3515-21F2-406F-97EE-EB7685497DED}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{14FD3515-21F2-406F-97EE-EB7685497DED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FDD6B35C-161A-459E-A53E-1432B5AA9CC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FDD6B35C-161A-459E-A53E-1432B5AA9CC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FDD6B35C-161A-459E-A53E-1432B5AA9CC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FDD6B35C-161A-459E-A53E-1432B5AA9CC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0242C468-D8E3-4B2E-96FB-65BB55E074F1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0242C468-D8E3-4B2E-96FB-65BB55E074F1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0242C468-D8E3-4B2E-96FB-65BB55E074F1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0242C468-D8E3-4B2E-96FB-65BB55E074F1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
