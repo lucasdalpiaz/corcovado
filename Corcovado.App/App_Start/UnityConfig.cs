@@ -19,6 +19,8 @@ namespace Corcovado.App
 
             container.RegisterType<IEAIS, REAIS>();
 
+            container.RegisterType<IMessageFile, RMessageFile>();
+
             GlobalConfiguration.Configuration.DependencyResolver = new UnityDependencyResolver(container);
         }
     }

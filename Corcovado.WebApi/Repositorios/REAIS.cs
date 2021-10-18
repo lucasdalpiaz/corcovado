@@ -102,8 +102,7 @@ namespace Corcovado.WebApi.Repositorios
 
 
 
-            query = query.AsNoTracking()
-                        .OrderBy(c => c.id);
+            query = query.AsNoTracking();
 
             return await query.ToArrayAsync();
         }

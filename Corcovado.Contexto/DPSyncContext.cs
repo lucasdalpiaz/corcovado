@@ -14,7 +14,7 @@ namespace Corcovado.Contexto
     {
         public DbSet<MessageFile> messageFiles { get; set; }
         public DbSet<Log> logs { get; set; }
-
+        public DbSet<Barco> barcos { get; set; }
         public DbSet<EAIS> eais { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -29,7 +29,7 @@ namespace Corcovado.Contexto
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             
-            modelBuilder.Entity<MessageFile>().HasKey(k => new { k.Id, k.Esn });
+            modelBuilder.Entity<MessageFile>().HasKey(k => new { k.Mobile, k.DataConvertida });
             modelBuilder.Entity<MessageFile>().Property(p => p.Id).HasColumnName("id");
             modelBuilder.Entity<MessageFile>().Property(p => p.InputXml).HasColumnName("input_xml");
             modelBuilder.Entity<MessageFile>().Property(p => p.Esn).HasColumnName("esn");
@@ -42,6 +42,9 @@ namespace Corcovado.Contexto
             modelBuilder.Entity<MessageFile>().Property(p => p.Lat).HasColumnName("lat");
             modelBuilder.Entity<MessageFile>().Property(p => p.Lon).HasColumnName("lon");
             modelBuilder.Entity<MessageFile>().Property(p => p.Obs).HasColumnName("obs");
+            modelBuilder.Entity<MessageFile>().Property(p => p.Tipo).HasColumnName("tipo");
+            modelBuilder.Entity<MessageFile>().Property(p => p.DataPos).HasColumnName("data_pos");
+            modelBuilder.Entity<MessageFile>().Property(p => p.DataCriacao).HasColumnName("data_criacao");
             modelBuilder.Entity<MessageFile>().ToTable("tb_dpsync");
 
 
@@ -61,6 +64,18 @@ namespace Corcovado.Contexto
             modelBuilder.Entity<EAIS>().Property(p => p.heading).HasColumnName("heading");
             modelBuilder.Entity<EAIS>().Property(p => p.dt_pos_utc).HasColumnName("dt_pos_utc");
             modelBuilder.Entity<EAIS>().ToTable("tb_eais");
+
+
+
+            modelBuilder.Entity<Barco>().HasKey(k => new { k.nome_eais, k.nome_global });
+            modelBuilder.Entity<Barco>().Property(p => p.nome_eais).HasColumnName("nome_eais");
+            modelBuilder.Entity<Barco>().Property(p => p.nome_global).HasColumnName("nome_global");
+            modelBuilder.Entity<Barco>().Property(p => p.esn_global).HasColumnName("esn_global");
+            modelBuilder.Entity<Barco>().Property(p => p.id_eais).HasColumnName("id_eais");
+            modelBuilder.Entity<Barco>().Property(p => p.pasta_arquivos_xml).HasColumnName("pasta_arquivos_xml");
+            modelBuilder.Entity<Barco>().Property(p => p.pasta_arquivos_txt).HasColumnName("pasta_arquivos_txt");
+            modelBuilder.Entity<Barco>().ToTable("tb_barco");
+
 
 
 

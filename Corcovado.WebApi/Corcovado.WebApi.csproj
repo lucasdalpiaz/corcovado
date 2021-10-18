@@ -129,12 +129,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Interfaces\IBarco.cs" />
     <Compile Include="Interfaces\IEAIS.cs" />
     <Compile Include="Interfaces\IGeral.cs" />
     <Compile Include="Interfaces\ILog.cs" />
+    <Compile Include="Interfaces\IMessageFile.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Repositorios\RBarco.cs" />
     <Compile Include="Repositorios\REAIS.cs" />
     <Compile Include="Repositorios\RLog.cs" />
+    <Compile Include="Repositorios\RMessageFile.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Corcovado.Contexto\Corcovado.Contexto.csproj">
