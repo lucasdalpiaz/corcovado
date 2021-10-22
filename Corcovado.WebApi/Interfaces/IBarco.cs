@@ -9,6 +9,14 @@ namespace Corcovado.WebApi.Interfaces
 {
     public interface IBarco : IGeral
     {
-        Task<Barco[]> GetAllLogsAsync();
+        Task<Barco[]> RetornarTodos();
+        Task<Barco[]> Ativados();
+
+        Task<Barco[]> Desativados();
+
+
+        Task<Barco> Ativar(string barco);
+        Task<Barco> Desativar(string barco);
+
     }
 }

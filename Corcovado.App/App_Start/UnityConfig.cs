@@ -15,6 +15,8 @@ namespace Corcovado.App
             // register all your components with the container here
             // it is NOT necessary to register your controllers
 
+            container.RegisterType<IBarco, RBarco>();
+
             container.RegisterType<ILog, RLog>();
 
             container.RegisterType<IEAIS, REAIS>();

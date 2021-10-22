@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,6 +10,8 @@ namespace Corcovado.Modelos
     public class EAIS
     {
         public double id { get; set; }
+        [NotMapped]
+        public int id_geral { get; set; }
         public string vessel_name { get; set; }
         public double longitude { get; set; }
         public double latitude { get; set; }

@@ -25,6 +25,12 @@ namespace Corcovado.App
                 routeTemplate: "petrobras_api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
+
+            config.Routes.MapHttpRoute(
+                name: "Corcovado",
+                routeTemplate: "corcovado_api/{controller}/{action}/{id}",
+                defaults: new { id = RouteParameter.Optional }
+            );
         }
     }
 }

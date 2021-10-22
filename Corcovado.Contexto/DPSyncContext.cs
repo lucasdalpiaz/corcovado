@@ -17,6 +17,8 @@ namespace Corcovado.Contexto
         public DbSet<Barco> barcos { get; set; }
         public DbSet<EAIS> eais { get; set; }
 
+        public DbSet<LogWeb> logWebs { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql("host=localhost;Port=5432;username=postgres;password=dalpiaz;database=db_dpsync");
@@ -29,7 +31,7 @@ namespace Corcovado.Contexto
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             
-            modelBuilder.Entity<MessageFile>().HasKey(k => new { k.Mobile, k.DataConvertida });
+            modelBuilder.Entity<MessageFile>().HasKey(k => new {k.Id, k.Mobile, k.DataConvertida });
             modelBuilder.Entity<MessageFile>().Property(p => p.Id).HasColumnName("id");
             modelBuilder.Entity<MessageFile>().Property(p => p.InputXml).HasColumnName("input_xml");
             modelBuilder.Entity<MessageFile>().Property(p => p.Esn).HasColumnName("esn");
@@ -75,6 +77,12 @@ namespace Corcovado.Contexto
             modelBuilder.Entity<Barco>().Property(p => p.pasta_arquivos_xml).HasColumnName("pasta_arquivos_xml");
             modelBuilder.Entity<Barco>().Property(p => p.pasta_arquivos_txt).HasColumnName("pasta_arquivos_txt");
             modelBuilder.Entity<Barco>().ToTable("tb_barco");
+
+
+            modelBuilder.Entity<LogWeb>().HasKey(k => new { k.dataCriacao });
+            modelBuilder.Entity<LogWeb>().Property(p => p.dataCriacao).HasColumnName("data_criacao");
+            modelBuilder.Entity<LogWeb>().Property(p => p.aviso).HasColumnName("aviso");
+            modelBuilder.Entity<LogWeb>().ToTable("tb_log_web");
 
 
 

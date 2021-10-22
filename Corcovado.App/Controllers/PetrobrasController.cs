@@ -34,6 +34,22 @@ namespace Corcovado.App.Controllers
         }
 
         [HttpGet]
+        public async Task<IHttpActionResult> RetornaTodos()
+        {
+            try
+            {
+                var results = await _repo.RetornaTodos();
+
+
+                return Ok(results);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
         public async Task<IHttpActionResult> MaioresQue(string data, string mobile = null)
         {
             try
@@ -50,11 +66,44 @@ namespace Corcovado.App.Controllers
         }
 
         [HttpGet]
+        public async Task<IHttpActionResult> MaioresQueId(int id, string mobile = null)
+        {
+            try
+            {
+                var results = await _repo.RetornaMaioresQueId(id, mobile);
+
+
+                return Ok(results);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
         public async Task<IHttpActionResult> MenoresQue(string data, string mobile = null)
         {
             try
             {
                 var results = await _repo.RetornaMenoresQueData(data, mobile);
+
+
+                return Ok(results);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+
+        [HttpGet]
+        public async Task<IHttpActionResult> MenoresQueId(int id, string mobile = null)
+        {
+            try
+            {
+                var results = await _repo.RetornaMenoresQueId(id, mobile);
 
 
                 return Ok(results);
@@ -82,6 +131,22 @@ namespace Corcovado.App.Controllers
         }
 
         [HttpGet]
+        public async Task<IHttpActionResult> IguaisAid(int id, string mobile = null)
+        {
+            try
+            {
+                var results = await _repo.RetornaIguaisId(id, mobile);
+
+
+                return Ok(results);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpGet]
         public async Task<IHttpActionResult> Entre(string data_ini, string data_fim, string mobile = null)
         {
             try
@@ -97,6 +162,22 @@ namespace Corcovado.App.Controllers
             }
         }
 
+
+        [HttpGet]
+        public async Task<IHttpActionResult> EntreId(int id_ini, int id_fim, string mobile = null)
+        {
+            try
+            {
+                var results = await _repo.RetornaEntreId(id_ini, id_fim, mobile);
+
+
+                return Ok(results);
+            }
+            catch (System.Exception ex)
+            {
+                return BadRequest(ex.Message);
+            }
+        }
 
     }
 }

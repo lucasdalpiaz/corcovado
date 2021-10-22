@@ -5,40 +5,73 @@
 </div>
 <div class="row">
 
-    <div class="col-md-4">
+    <div class="col-md-3">
         <h2>
-            Petrobras API - Maiores Que
+            Petrobras API - Maiores Que Id
         </h2>
-        <p>Retorne por embarcação ou não, dados maiores que a data. petrobras_api/maioresque?data=@DateTime.Now.ToString("yyyyMMdd_000000")&mobile=ASTRO TUPI</p>
-        <p><a class="btn btn-default" href="petrobras_api/petrobras/maioresque?data=@DateTime.Now.ToString("yyyyMMdd_000000")&mobile=ASTRO TUPI">Acesso &raquo;</a></p>
+        <p>Retorne por embarcação ou não, dados maiores que o id. petrobras_api/petrobras/maioresqueid?id=1</p>
+        <p><a class="btn btn-default" href="petrobras_api/petrobras/maioresqueid?id=1">Acesso &raquo;</a></p>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <h2>
-            Petrobras API - Menores Que
+            Petrobras API - Menores Que Id
         </h2>
-        <p>Retorne por embarcação ou não, dados menores que a data. petrobras_api/maioresque?data=@DateTime.Now.ToString("yyyyMMdd_000000")&mobile=ASTRO TUPI</p>
-        <p><a class="btn btn-default" href="petrobras_api/petrobras/menoresque?data=@DateTime.Now.ToString("yyyyMMdd_000000")&mobile=ASTRO TUPI">Acesso &raquo;</a></p>
+        <p>Retorne por embarcação ou não, dados menores que o id. petrobras_api/petrobras/maioresqueid?id=100</p>
+        <p><a class="btn btn-default" href="petrobras_api/petrobras/menoresqueid?id=100">Acesso &raquo;</a></p>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-3">
         <h2>
-            Petrobras API - Iguais à
+            Petrobras API - Iguais ao Id
         </h2>
-        <p>Retorne por embarcação ou não, dados iguais a data. petrobras_api/iguaisa?data=@DateTime.Now.ToString("yyyyMMdd_000000")&mobile=ASTRO TUPI</p>
-        <p><a class="btn btn-default" href="petrobras_api/petrobras/iguaisa?data=@DateTime.Now.ToString("yyyyMMdd_000000")&mobile=ASTRO TUPI">Acesso &raquo;</a></p>
+        <p>Retorne por embarcação ou não, dados iguais ao id. petrobras_api/petrobras/iguaisaid?data=1</p>
+        <p><a class="btn btn-default" href="petrobras_api/petrobras/iguaisaid?ID=1">Acesso &raquo;</a></p>
     </div>
-    
+    <div class="col-md-3">
+        <h2>
+            Petrobras API - Entre Id
+        </h2>
+        <p>Retorne por embarcação ou não, dados entre o id. petrobras_api/petrobras/entreid?id_ini=1&id_fim=500</p>
+        <p><a class="btn btn-default" href="petrobras_api/petrobras/entreid?id_ini=1&id_fim=500">Acesso &raquo;</a></p>
+    </div>
+
 </div>
 <div class="row">
-    <div class="col-md-4">
+
+    <div class="col-md-3">
         <h2>
-            Petrobras API - Entre
+            Petrobras API - Maiores Que Data
         </h2>
-        <p>Retorne por embarcação ou não, dados entre a data. petrobras_api/entre?data_ini=@DateTime.Now.ToString("yyyyMMdd_000000")&data_fim=@DateTime.Now.ToString("yyyyMMdd_235959")&mobile=ASTRO TUPI</p>
+        <p>Retorne por embarcação ou não, dados maiores que a data. petrobras_api/petrobras/maioresque?data=@DateTime.Now.ToString("yyyyMMdd_000000")&mobile=ASTRO TUPI</p>
+        <p><a class="btn btn-default" href="petrobras_api/petrobras/maioresque?data=@DateTime.Now.ToString("yyyyMMdd_000000")&mobile=ASTRO TUPI">Acesso &raquo;</a></p>
+    </div>
+    <div class="col-md-3">
+        <h2>
+            Petrobras API - Menores Que Data
+        </h2>
+        <p>Retorne por embarcação ou não, dados menores que a data. petrobras_api/petrobras/maioresque?data=@DateTime.Now.ToString("yyyyMMdd_000000")&mobile=ASTRO TUPI</p>
+        <p><a class="btn btn-default" href="petrobras_api/petrobras/menoresque?data=@DateTime.Now.ToString("yyyyMMdd_000000")&mobile=ASTRO TUPI">Acesso &raquo;</a></p>
+    </div>
+    <div class="col-md-3">
+        <h2>
+            Petrobras API - Iguais à Data
+        </h2>
+        <p>Retorne por embarcação ou não, dados iguais a data. petrobras_api/petrobras/iguaisa?data=@DateTime.Now.ToString("yyyyMMdd_000000")&mobile=ASTRO TUPI</p>
+        <p><a class="btn btn-default" href="petrobras_api/petrobras/iguaisa?data=@DateTime.Now.ToString("yyyyMMdd_000000")&mobile=ASTRO TUPI">Acesso &raquo;</a></p>
+    </div>
+    <div class="col-md-3">
+        <h2>
+            Petrobras API - Entre Data
+        </h2>
+        <p>Retorne por embarcação ou não, dados entre a data. petrobras_api/petrobras/entre?data_ini=@DateTime.Now.ToString("yyyyMMdd_000000")&data_fim=@DateTime.Now.ToString("yyyyMMdd_235959")&mobile=ASTRO TUPI</p>
         <p><a class="btn btn-default" href="petrobras_api/petrobras/entre?data_ini=@DateTime.Now.ToString("yyyyMMdd_000000")&data_fim=@DateTime.Now.ToString("yyyyMMdd_235959")&mobile=ASTRO TUPI">Acesso &raquo;</a></p>
     </div>
-    <div class="col-md-4">
+
+</div>
+<div class="row">
+   
+    @*<div class="col-md-4">
         <h2>ExactAIS</h2>
         <p>Retorne os dados referente a ExactAIS.</p>
         <p><a class="btn btn-default" href="/api/eais">Acesso &raquo;</a></p>
-    </div>
+    </div>*@
 </div>
