@@ -184,7 +184,7 @@ namespace Corcovado.App.Controllers
                                             INSERT INTO public.tb_dpsync(id, input_xml, esn, unixtime, payload, output_xml, output_csv, 
                                                 mobile, data_convertida, lat, lon, obs, data_criacao, tipo, data_pos)
                                             VALUES ((select max(id)+1 from tb_dpsync), '{eais.id.ToString()}', '{eais.id.ToString()}', null, null, null,null, 
-                                               '{eais.vessel_name.Trim().ToUpper()}', '{eais.dt_pos_utc.ToString("yyyyMMdd_HHmmss")}', '{eais.latitude.ToString()}', '{eais.longitude.ToString()}', null, current_timestamp, 'EAIS', '{ eais.dt_pos_utc}')
+                                               '{eais.vessel_name.Trim().ToUpper()}', '{eais.dt_pos_utc.ToString("yyyyMMdd_HHmmss")}', '{eais.latitude.ToString()}', '{eais.longitude.ToString()}', null, current_timestamp, 'EAIS', '{ eais.dt_pos_utc.ToString("yyyy-MM-dd HH:mm:ss")}')
                                         ";
                                         var execute = ctx.Database.ExecuteSqlRaw(sql);  //  RETURNING id INTO last_id;
 

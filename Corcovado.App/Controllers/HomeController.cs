@@ -17,19 +17,19 @@ namespace Corcovado.App.Controllers
         {
             ViewBag.Title = "Home Page";
             //LerXmlController _xmlController = new LerXmlController(IEAIS);
-            if (liberar)
-            {
-                liberar = false;
-                var t = Task.Run(async delegate
-                {
-                    while (true)
-                    {
-                        await LerXmlController.LerXml();
-                        await Task.Delay(TimeSpan.FromMinutes(2));
-                    }
-                });
+            //if (liberar)
+            //{
+            //    liberar = false;
+            //    var t = Task.Run(async delegate
+            //    {
+            //        while (true)
+            //        {
+            //            await LerXmlController.LerXml();
+            //            await Task.Delay(TimeSpan.FromMinutes(2));
+            //        }
+            //    });
 
-            }
+            //}
 
             return View();
         }
