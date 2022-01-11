@@ -33,5 +33,8 @@ namespace Corcovado.Modelos
         #endregion
         [JsonIgnore]
         public string Obs { get; set; }
+
+
+
     }
 }

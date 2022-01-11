@@ -74,6 +74,9 @@
     <Compile Include="EAIS.cs" />
     <Compile Include="ExactAIS.cs" />
     <Compile Include="Log.cs" />
+    <Compile Include="LogNaoEncontrado.cs" />
+    <Compile Include="LogNaoEncontradoProcessado.cs" />
+    <Compile Include="LogPorcentagem.cs" />
     <Compile Include="LogWeb.cs" />
     <Compile Include="MessageFile.cs" />
     <Compile Include="OutputXml.cs" />

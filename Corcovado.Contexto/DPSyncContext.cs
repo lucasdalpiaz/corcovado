@@ -19,6 +19,11 @@ namespace Corcovado.Contexto
 
         public DbSet<LogWeb> logWebs { get; set; }
 
+        public DbSet<LogNaoEncontrado> logNaoEncontrados { get; set; }
+
+        public DbSet<LogNaoEncontradoProcessado> logNaoEncontradoProcessados { get; set; }
+        public DbSet<LogPorcentagem> logPorcentagens { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseNpgsql("host=localhost;Port=5432;username=postgres;password=dalpiaz;database=db_dpsync");
@@ -84,7 +89,32 @@ namespace Corcovado.Contexto
             modelBuilder.Entity<LogWeb>().Property(p => p.aviso).HasColumnName("aviso");
             modelBuilder.Entity<LogWeb>().ToTable("tb_log_web");
 
+            modelBuilder.Entity<LogNaoEncontrado>().HasKey(k => new { k.Id ,k.IdAnterior});
+            modelBuilder.Entity<LogNaoEncontrado>().Property(p => p.QtdFalha).HasColumnName("qtd_falha");
+            modelBuilder.Entity<LogNaoEncontrado>().Property(p => p.mobile).HasColumnName("mobile");
+            modelBuilder.Entity<LogNaoEncontrado>().Property(p => p.Id).HasColumnName("id");
+            modelBuilder.Entity<LogNaoEncontrado>().Property(p => p.IdAnterior).HasColumnName("id_anterior");
+            modelBuilder.Entity<LogNaoEncontrado>().Property(p => p.DataPos).HasColumnName("data_pos");
+            modelBuilder.Entity<LogNaoEncontrado>().Property(p => p.DataPosAnterior).HasColumnName("data_pos_anterior");
+            modelBuilder.Entity<LogNaoEncontrado>().Property(p => p.DataCriacao).HasColumnName("data_criacao");
+            modelBuilder.Entity<LogNaoEncontrado>().ToTable("tb_log_nao_encontrado");
 
+
+            modelBuilder.Entity<LogNaoEncontradoProcessado>().HasKey(k => new { k.mobile ,k.DataPos });
+            modelBuilder.Entity<LogNaoEncontradoProcessado>().Property(p => p.mobile).HasColumnName("mobile");
+            modelBuilder.Entity<LogNaoEncontradoProcessado>().Property(p => p.DataPos).HasColumnName("data_pos");
+            modelBuilder.Entity<LogNaoEncontradoProcessado>().ToTable("tb_log_nao_encontrado_processado");
+
+
+            modelBuilder.Entity<LogPorcentagem>().HasKey(k => new { k.DataCriacao });
+            modelBuilder.Entity<LogPorcentagem>().Property(p => p.DataCriacao).HasColumnName("data_criacao");
+            modelBuilder.Entity<LogPorcentagem>().Property(p => p.DataAlteracao).HasColumnName("data_alteracao");
+            modelBuilder.Entity<LogPorcentagem>().Property(p => p.Porcentagem).HasColumnName("porcentagem");
+            modelBuilder.Entity<LogPorcentagem>().Property(p => p.Realizado).HasColumnName("realizado");
+            modelBuilder.Entity<LogPorcentagem>().Property(p => p.Esperado).HasColumnName("esperado");
+            modelBuilder.Entity<LogPorcentagem>().Property(p => p.QtdMobile).HasColumnName("qtd_mobile");
+            modelBuilder.Entity<LogPorcentagem>().Property(p => p.Posicoes).HasColumnName("posicoes");
+            modelBuilder.Entity<LogPorcentagem>().ToTable("tb_log_porcentagem");
 
 
         }

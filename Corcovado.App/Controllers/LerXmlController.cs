@@ -50,7 +50,6 @@ namespace Corcovado.App.Controllers
                     using (var ctx = new DPSyncContext())
                     {
 
-                        bool _INSERIR_POR_INTERVALO = true;
                         string _CAMINHO_PADRAO_TXT = @"c:\dpsync_web_saida_txt";
                         string _CAMINHO_PADRAO_XML = @"c:\dpsync_web_saida_xml";
 
@@ -74,17 +73,6 @@ namespace Corcovado.App.Controllers
                             }
 
 
-
-                            //int max = 0;
-                            //try
-                            //{
-                            //    max = ctx.messageFiles.Max(x => x.Id);
-                            //}
-                            //catch
-                            //{
-
-
-                            //}
                           
                             EAIS eais = new EAIS
                             {
@@ -105,32 +93,8 @@ namespace Corcovado.App.Controllers
                             
                             if (ctx.messageFiles.FirstOrDefault(m=>m.Mobile.Trim().ToUpper() == item.VesselName.Trim().ToUpper() && m.DataConvertida == Convert.ToDateTime(item.DtPosUtc).ToString("yyyyMMdd_HHmmss")) == null)
                             {
-                                
-                                if (_INSERIR_POR_INTERVALO == false)
-                                {
-                                    //ctx.messageFiles.Add(
-                                    //           new MessageFile
-                                    //           {
-                                    //               Id = ++max,
-                                    //               DataPos = eais.dt_pos_utc,
-                                    //               DataConvertida = eais.dt_pos_utc.ToString("yyyyMMdd_HHmmss"),
-                                    //               Esn = eais.id.ToString(),
-                                    //               Tipo = "EAIS",
-                                    //               InputXml = eais.id.ToString(),
-                                    //               Lat = eais.latitude.ToString(),
-                                    //               Lon = eais.longitude.ToString(),
-                                    //               Mobile = eais.vessel_name.Trim().ToUpper(),
-                                    //               DataCriacao = DateTime.Now
 
-
-
-
-                                    //           }
-                                    //       );
-                                }
-                                else
-                                {
-                                    MessageFile mInferior  = ctx.messageFiles.OrderByDescending(x => x.DataPos)
+                                MessageFile mInferior = ctx.messageFiles.OrderByDescending(x => x.DataPos)
                                         .Where(x =>
                                             x.Mobile.Trim().ToUpper() == item.VesselName.Trim().ToUpper()
                                             &&
@@ -139,125 +103,41 @@ namespace Corcovado.App.Controllers
                                         .FirstOrDefault();
 
 
-                                    //MessageFile mSuperior = ctx.messageFiles.OrderBy(x => x.DataPos)
-                                    //   .Where(x =>
-                                    //       x.Mobile.Trim().ToUpper() == item.VesselName.Trim().ToUpper()
-                                    //       &&
-                                    //       x.DataPos > Convert.ToDateTime(item.DtPosUtc)
-                                    //   )
-                                    //   .FirstOrDefault();
+                                MessageFile global = ctx.messageFiles.FirstOrDefault(x =>
+                                    x.Mobile.Trim().ToUpper() == item.VesselName.Trim().ToUpper()
+                                    &&
+                                    x.Tipo == "GLOBAL"
+                                    );
 
-                                    //if (mInferior == null)
-                                    //{
-                                    //    continue;
-                                    //}
 
-                                    MessageFile global = ctx.messageFiles.FirstOrDefault(x =>
-                                        x.Mobile.Trim().ToUpper() == item.VesselName.Trim().ToUpper()
-                                        &&
-                                        x.Tipo == "GLOBAL"
-                                        );
-                                    if (global!=null)
-                                    {
-
-                                    }
-
-                                    if (global == null || mInferior==null || DateTime.Now.AddHours(-3).Subtract(mInferior.DataPos).TotalMinutes >= 15)
-                                    {
-                                      //  max = max + 1;
-                                        //ctx.messageFiles.Add(
-                                        //        new MessageFile
-                                        //        {
-                                        //            Id = max,
-                                        //            DataPos = eais.dt_pos_utc,
-                                        //            DataConvertida = eais.dt_pos_utc.ToString("yyyyMMdd_HHmmss"),
-                                        //            Esn = eais.id.ToString(),
-                                        //            Tipo = "EAIS",
-                                        //            InputXml = eais.id.ToString(),
-                                        //            Lat = eais.latitude.ToString(),
-                                        //            Lon = eais.longitude.ToString(),
-                                        //            Mobile = eais.vessel_name.Trim().ToUpper(),
-                                        //            DataCriacao = DateTime.Now
-                                        //        }
-                                        //    );
-                                        string sql = $@"
+                                if (global == null || mInferior == null || DateTime.Now.AddHours(-3).Subtract(mInferior.DataPos).TotalMinutes >= 15)
+                                {
+                                   
+                                    string sql = $@"
                                             INSERT INTO public.tb_dpsync(id, input_xml, esn, unixtime, payload, output_xml, output_csv, 
                                                 mobile, data_convertida, lat, lon, obs, data_criacao, tipo, data_pos)
                                             VALUES ((select max(id)+1 from tb_dpsync), '{eais.id.ToString()}', '{eais.id.ToString()}', null, null, null,null, 
                                                '{eais.vessel_name.Trim().ToUpper()}', '{eais.dt_pos_utc.ToString("yyyyMMdd_HHmmss")}', '{eais.latitude.ToString()}', '{eais.longitude.ToString()}', null, current_timestamp, 'EAIS', '{ eais.dt_pos_utc.ToString("yyyy-MM-dd HH:mm:ss")}')
                                         ";
-                                        var execute = ctx.Database.ExecuteSqlRaw(sql);  //  RETURNING id INTO last_id;
-
-                                        ctx.SaveChanges();
-                                        MessageFile elementoComId = ctx.messageFiles.FirstOrDefault(x =>
-                                           x.Mobile.Trim().ToUpper() == item.VesselName.Trim().ToUpper()
-                                           &&
-                                           x.DataPos == Convert.ToDateTime(item.DtPosUtc)
-                                           );
-
-
-                                        eais.id_geral = elementoComId.Id;
-                                    }
-                                    
-
-                                    // List<MessageFile> mList = ctx.messageFiles.OrderByDescending(x => x.DataPos)
-                                    //     .Where(x => x.Mobile.Trim().ToUpper() == item.VesselName.Trim().ToUpper())
-                                    //     .Take(2)
-                                    //     .ToList();
-
-                                    // if (mList.Count < 2)
-                                    // {
-                                    //     ctx.messageFiles.Add(
-                                    //            new MessageFile
-                                    //            {
-                                    //                Id = ++max,
-                                    //                DataPos = eais.dt_pos_utc,
-                                    //                DataConvertida = eais.dt_pos_utc.ToString("yyyyMMdd_HHmmss"),
-                                    //                Esn = eais.id.ToString(),
-                                    //                Tipo = "EAIS",
-                                    //                InputXml = eais.id.ToString(),
-                                    //                Lat = eais.latitude.ToString(),
-                                    //                Lon = eais.longitude.ToString(),
-                                    //                Mobile = eais.vessel_name.Trim().ToUpper(),
-                                    //                DataCriacao = DateTime.Now
+                                    var execute = ctx.Database.ExecuteSqlRaw(sql);  //  RETURNING id INTO last_id;
 
 
 
 
-                                    //            }
-                                    //        );
-                                    // }
-                                    //else  if (mList[0].DataPos.Subtract(mList[1].DataPos).Minutes >= 15
-                                    //     && eais.dt_pos_utc <= mList[0].DataPos
-                                    //     && eais.dt_pos_utc >= mList[1].DataPos)
-                                    // {
+                                    int retconsul = await ctx.SaveChangesAsync();
+                                    MessageFile elementoComId = ctx.messageFiles.FirstOrDefault(x =>
+                                       x.Mobile.Trim().ToUpper() == item.VesselName.Trim().ToUpper()
+                                       &&
+                                       x.DataPos == Convert.ToDateTime(item.DtPosUtc)
+                                       );
 
 
-
-                                    //     ctx.messageFiles.Add(
-                                    //             new MessageFile
-                                    //             {
-                                    //                 Id = ++max,
-                                    //                 DataPos = eais.dt_pos_utc,
-                                    //                 DataConvertida = eais.dt_pos_utc.ToString("yyyyMMdd_HHmmss"),
-                                    //                 Esn = eais.id.ToString(),
-                                    //                 Tipo = "EAIS",
-                                    //                 InputXml = eais.id.ToString(),
-                                    //                 Lat = eais.latitude.ToString(),
-                                    //                 Lon = eais.longitude.ToString(),
-                                    //                 Mobile = eais.vessel_name.Trim().ToUpper(),
-                                    //                 DataCriacao = DateTime.Now
-
-
-
-                                    //             }
-                                    //         );
-                                    // }
-
-
+                                    eais.id_geral = elementoComId.Id;
                                 }
 
-                                
+
+                            
+
                             }
 
 
