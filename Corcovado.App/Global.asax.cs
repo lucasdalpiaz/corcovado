@@ -49,7 +49,7 @@ namespace Corcovado.App
                 while (true)
                 {
                     LogController.RegistraLogComDiferencaMaiorQue(20);
-                    await Task.Delay(TimeSpan.FromMinutes(2));
+                    await Task.Delay(TimeSpan.FromHours(1));
                 }
             });
         }
@@ -61,7 +61,7 @@ namespace Corcovado.App
                 while (true)
                 {
                     LogController.RegistraLogPorcentagem(2);
-                    await Task.Delay(TimeSpan.FromMinutes(3));
+                    await Task.Delay(TimeSpan.FromHours(6));
                 }
             });
         }
