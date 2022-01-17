@@ -27,7 +27,7 @@ namespace Corcovado.App
             ProcessaEAIS();
             RegistroParaLogPorcentagem();
             RegistraLogPorcentagem();
-
+            //CalculosGeodesicos();
         }
 
         public void ProcessaEAIS()
@@ -61,6 +61,18 @@ namespace Corcovado.App
                 while (true)
                 {
                     LogController.RegistraLogPorcentagem(2);
+                    await Task.Delay(TimeSpan.FromHours(6));
+                }
+            });
+        }
+
+        public void CalculosGeodesicos()
+        {
+            var t = Task.Run(async delegate
+            {
+                while (true)
+                {
+                    await LerXmlController.CalculosGeodesicos();
                     await Task.Delay(TimeSpan.FromHours(6));
                 }
             });

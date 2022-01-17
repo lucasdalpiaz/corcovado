@@ -71,6 +71,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Barco.cs" />
+    <Compile Include="CalculoGeo.cs" />
     <Compile Include="Datum.cs" />
     <Compile Include="EAIS.cs" />
     <Compile Include="ExactAIS.cs" />

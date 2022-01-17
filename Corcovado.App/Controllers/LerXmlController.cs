@@ -287,5 +287,56 @@ namespace Corcovado.App.Controllers
             string hora = date.ToString("HHmmss");
             return $@"$GPGGA,{hora},{lat.Replace(",", ".")},S,{lon.Replace(",", ".")},W";
         }
+
+        [HttpGet]
+        public async static Task<bool> CalculosGeodesicos()
+        {
+            try
+            {
+                using (var ctx = new DPSyncContext())
+                {
+
+                    //    var result = await ctx.Database.sql.FromSqlRaw($@"
+                    //WITH cte AS (
+                    //SELECT 
+                    //mobile,
+                    //id,
+                    //lat as lat_b,
+                    //lon as lon_b,
+                    //data_pos as data_pos_b,
+                    //LEAD (lat,1) OVER (PARTITION BY mobile ORDER BY data_pos desc) AS lat_a,
+                    //LEAD (lon,1) OVER (PARTITION BY mobile ORDER BY data_pos desc) AS lon_a,
+                    //LEAD (data_pos,1) OVER (PARTITION BY mobile ORDER BY data_pos desc) AS data_pos_a
+                    //FROM tb_dpsync
+                    //)
+                    //select * from cte 
+                    //WHERE data_pos_b >= NOW()::DATE - 1 AND data_pos_a >= NOW()::DATE - 1  
+
+                    //").ToListAsync();
+
+
+
+                    CalculoGeo calcGeo = new CalculoGeo(6356752.3141, 6378137, -22.84875, -43.13145, -22.84878, -43.13148, 
+                        new DateTime(2021,11,6,0,9,40),
+                        new DateTime(2021,11,6,0,4,8));
+
+
+                }
+            }
+            catch (Exception ex)
+            {
+
+                using (var ctx = new DPSyncContext())
+                {
+                    ctx.logWebs.Add(new LogWeb { aviso = "ex: " + ex.Message + ". InnerEx: " + ex.InnerException, dataCriacao = DateTime.Now });
+                    await ctx.SaveChangesAsync();
+
+                }
+            }
+            return true;
+        }
+
+
+
     }
 }
