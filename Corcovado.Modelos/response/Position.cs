@@ -13,5 +13,7 @@ namespace Corcovado.Modelos.response
         public string lat { get; set; }
         public string lon { get; set; }
         public string id { get; set; }
+        public double? velocity { get; set; }
+        public double? course { get; set; }
     }
 }

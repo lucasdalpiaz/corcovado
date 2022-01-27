@@ -30,6 +30,9 @@ namespace Corcovado.Modelos
         public string Tipo { get; set; }
         public string Lat { get; set; }
         public string Lon { get; set; }
+
+        public double? Velocity { get; set; }
+        public double? Course { get; set; }
         #endregion
         [JsonIgnore]
         public string Obs { get; set; }

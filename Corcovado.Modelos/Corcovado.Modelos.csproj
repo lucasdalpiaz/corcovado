@@ -70,6 +70,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CalculoGeoComIdDpsyncDTO.cs" />
     <Compile Include="Barco.cs" />
     <Compile Include="CalculoGeo.cs" />
     <Compile Include="Datum.cs" />

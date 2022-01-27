@@ -1,4 +1,5 @@
-﻿using Corcovado.WebApi.Interfaces;
+﻿using Corcovado.Contexto;
+using Corcovado.WebApi.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,6 +16,20 @@ namespace Corcovado.App.Controllers
     
         public async Task<ActionResult> Index()
         {
+            string server = "";
+            if (DPSyncContext.servidor == 9)
+            {
+                server = "BASE DE DADOS: HOMOLOGAÇÃO";
+            }else if(DPSyncContext.servidor == 1)
+            {
+                server = "BASE DE DADOS: PRODUÇÃO";
+            }
+            else
+            {
+                server = "BASE DE DADOS: CHAME O SUPORTE";
+
+            }
+            ViewBag.Servidor = server;
             ViewBag.Title = "Home Page";
             //LerXmlController _xmlController = new LerXmlController(IEAIS);
             //if (liberar)

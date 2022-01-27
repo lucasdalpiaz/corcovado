@@ -50,13 +50,30 @@ namespace Corcovado.App.Controllers
                     using (var ctx = new DPSyncContext())
                     {
 
-                        string _CAMINHO_PADRAO_TXT = @"c:\dpsync_web_saida_txt";
-                        string _CAMINHO_PADRAO_XML = @"c:\dpsync_web_saida_xml";
-
+                        string _CAMINHO_PADRAO_TXT = "";
+                        string _CAMINHO_PADRAO_XML = "";
+                        if (DPSyncContext.servidor == 9)
+                        {
+                            _CAMINHO_PADRAO_TXT = @"c:\homologacao\dpsync_web_saida_txt";
+                            _CAMINHO_PADRAO_XML = @"c:\homologacao\dpsync_web_saida_xml";
+                        }
+                        else if (DPSyncContext.servidor == 1)
+                        {
+                            _CAMINHO_PADRAO_TXT = @"c:\dpsync_web_saida_txt";
+                            _CAMINHO_PADRAO_XML = @"c:\dpsync_web_saida_xml";
+                        }
+                        else
+                        {
+                            _CAMINHO_PADRAO_TXT = @"c:\other\dpsync_web_saida_txt";
+                            _CAMINHO_PADRAO_XML = @"c:\other\dpsync_web_saida_xml";
+                        }
 
 
 
                         List<EAIS> eaisList = new List<EAIS>();
+                        List<CalculoGeo> calcGeoList = new List<CalculoGeo>();
+
+
                         IList<Barco> barcosDesativados = ctx.barcos
                                 .Where(x => x.esn_global.ToUpper().Trim() == "D")
                                 .OrderBy(c => c.nome_eais)
@@ -112,12 +129,49 @@ namespace Corcovado.App.Controllers
 
                                 if (global == null || mInferior == null || DateTime.Now.AddHours(-3).Subtract(mInferior.DataPos).TotalMinutes >= 15)
                                 {
+                                    var anterior =  await ctx.messageFiles
+                                        .OrderByDescending(x => x.DataPos)
+                                        .Where(x => x.DataPos < eais.dt_pos_utc && x.Mobile == eais.vessel_name.Trim().ToUpper())
+                                        .FirstOrDefaultAsync();
+
+                                    CalculoGeo calcGeo;
+
+                                    if (anterior != null)
+                                    {
+                                        calcGeo = new CalculoGeo(
+                                         eais.latitude,
+                                         eais.longitude,
+                                         Convert.ToDouble(anterior.Lat),
+                                         Convert.ToDouble(anterior.Lon),
+                                         eais.dt_pos_utc,
+                                         anterior.DataPos);
+                                    }
+                                    else
+                                    {
+                                        calcGeo = new CalculoGeo(
+                                        eais.latitude,
+                                        eais.longitude,
+                                        0,
+                                        0,
+                                        eais.dt_pos_utc,
+                                        DateTime.Now);
+                                        calcGeo.velocidade_knots = 0;
+                                        calcGeo.azimute_b_grau = 0;
+                                    }
+
+
+                                    
+
+
                                    
+
                                     string sql = $@"
                                             INSERT INTO public.tb_dpsync(id, input_xml, esn, unixtime, payload, output_xml, output_csv, 
-                                                mobile, data_convertida, lat, lon, obs, data_criacao, tipo, data_pos)
+                                                mobile, data_convertida, lat, lon, obs, data_criacao, tipo, data_pos, velocity, course)
                                             VALUES ((select max(id)+1 from tb_dpsync), '{eais.id.ToString()}', '{eais.id.ToString()}', null, null, null,null, 
-                                               '{eais.vessel_name.Trim().ToUpper()}', '{eais.dt_pos_utc.ToString("yyyyMMdd_HHmmss")}', '{eais.latitude.ToString()}', '{eais.longitude.ToString()}', null, current_timestamp, 'EAIS', '{ eais.dt_pos_utc.ToString("yyyy-MM-dd HH:mm:ss")}')
+                                                '{eais.vessel_name.Trim().ToUpper()}', '{eais.dt_pos_utc.ToString("yyyyMMdd_HHmmss")}',
+                                                '{eais.latitude.ToString()}', '{eais.longitude.ToString()}', null, current_timestamp, 'EAIS', '{ eais.dt_pos_utc.ToString("yyyy-MM-dd HH:mm:ss")}',
+                                                {calcGeo.velocidade_knots.ToString().Replace(",",".")}, {calcGeo.azimute_b_grau.ToString().Replace(",", ".")})
                                         ";
                                     var execute = ctx.Database.ExecuteSqlRaw(sql);  //  RETURNING id INTO last_id;
 
@@ -133,6 +187,15 @@ namespace Corcovado.App.Controllers
 
 
                                     eais.id_geral = elementoComId.Id;
+                                    calcGeo.id = elementoComId.Id;
+                                    calcGeoList.Add(calcGeo);
+
+                                    if (calcGeo.lat_a != 0 && calcGeo.lon_a !=0)
+                                    {
+                                        ctx.calculoGeos.Add(calcGeo);
+                                        await ctx.SaveChangesAsync();
+                                    }
+                                    
                                 }
 
 
@@ -190,6 +253,7 @@ namespace Corcovado.App.Controllers
                                 );
 
 
+                                CalculoGeo calculo = calcGeoList.Find(x => x.id == item.id_geral);
                                 //inserir arquivo txt-------------------------------------------------------------------------------------------
 
                                 string caminho_txt = "";
@@ -208,7 +272,7 @@ namespace Corcovado.App.Controllers
                                 if (!Directory.Exists(caminho_txt))
                                     Directory.CreateDirectory(caminho_txt);
                                 var txt = new StringBuilder();
-                                string newLine = NmeaGPGGA(item.dt_pos_utc, item.latitude.ToString(), item.longitude.ToString());
+                                string newLine = NmeaGPGGA(item.dt_pos_utc, item.latitude.ToString(), item.longitude.ToString(), calculo.velocidade_knots, calculo.azimute_b_grau);
                                 txt.Append(newLine);
 
                                 //after your loop
@@ -241,6 +305,8 @@ namespace Corcovado.App.Controllers
 
                                 using (var textWriter = new StreamWriter(localArquivo))
                                 {
+                                   
+
                                     serializer.Serialize(
                                         textWriter,
                                         new OutputXml { 
@@ -248,7 +314,9 @@ namespace Corcovado.App.Controllers
                                             Id =item.id_geral,
                                             Lat = Math.Round(item.latitude, 6),
                                             Lon = Math.Round(item.longitude, 6),
-                                            Mobile = item.vessel_name.Trim().ToUpper()
+                                            Mobile = item.vessel_name.Trim().ToUpper(),
+                                            Velocity = calculo.velocidade_knots,
+                                            Course = calculo.azimute_b_grau
                                         },
                                         xmlNamespaces
                                         );
@@ -281,7 +349,7 @@ namespace Corcovado.App.Controllers
             return true;
         }
 
-        public static string NmeaGPGGA(DateTime date, string lat, string lon)
+        public static string NmeaGPGGA(DateTime date, string lat, string lon, double velocity, double couse)
         {
             string data = date.ToString("yyyyMMdd");
             string hora = date.ToString("HHmmss");
@@ -296,7 +364,8 @@ namespace Corcovado.App.Controllers
                 using (var ctx = new DPSyncContext())
                 {
 
-                    //    var result = await ctx.Database.sql.FromSqlRaw($@"
+
+                    //var result = ctx.atualAnteriorDTOs.FromSqlRaw($@"
                     //WITH cte AS (
                     //SELECT 
                     //mobile,
@@ -312,11 +381,18 @@ namespace Corcovado.App.Controllers
                     //select * from cte 
                     //WHERE data_pos_b >= NOW()::DATE - 1 AND data_pos_a >= NOW()::DATE - 1  
 
-                    //").ToListAsync();
+                    //")
+                    //.ToListAsync();
+
+                    //foreach (var item in result.Result.ToList())
+                    //{
+
+                    //}
 
 
-
-                    CalculoGeo calcGeo = new CalculoGeo(6356752.3141, 6378137, -22.84875, -43.13145, -22.84878, -43.13148, 
+                    var anterior = await ctx.messageFiles.OrderByDescending(x=>x.DataPos).Where(x=>x.DataPos < DateTime.Now && x.Mobile == "SKANDI  BOTAFOGO").FirstOrDefaultAsync();
+               
+                    CalculoGeo calcGeo = new CalculoGeo( -22.84875, -43.13145, -22.84878, -43.13148, 
                         new DateTime(2021,11,6,0,9,40),
                         new DateTime(2021,11,6,0,4,8));
 

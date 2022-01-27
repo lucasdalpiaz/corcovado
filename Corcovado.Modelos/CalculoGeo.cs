@@ -8,6 +8,7 @@ namespace Corcovado.Modelos
 {
     public class CalculoGeo
     {
+        public int id { get; set; }
         public double _a { get; set; }
         public double _b { get; set; }
 
@@ -23,8 +24,6 @@ namespace Corcovado.Modelos
 
 
         public CalculoGeo(
-            double _b,
-            double _a, 
             double lat_b,
             double lon_b,
             double lat_a,
@@ -33,8 +32,8 @@ namespace Corcovado.Modelos
             DateTime data_a
             )
         {
-            this._b = _b;
-            this._a = _a;
+            _a = 6378137;
+            _b = 6356752.3141;
             this.lat_b = lat_b;
             this.lon_b = lon_b;
             this.lat_a = lat_a;
@@ -46,23 +45,14 @@ namespace Corcovado.Modelos
             CalculoFmGrau();
             CalculoFmMinuto();
             CalculoFmSegundo();
-
             CalculoDfSegundo();
-
             CalculoDlSegundo();
-
             CalculoNA();
-
             CalculoMA();
-
             CalculoNB();
-
             CalculoX1();
-
             CalculoY1();
-
             CalculoDE1();
-
             CalculoAzDecimal();
             CalculoAzGrau();
             CalculoAzMinuto();

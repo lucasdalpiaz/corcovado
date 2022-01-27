@@ -23,11 +23,11 @@ namespace Corcovado.Modelos
 		[XmlElement(ElementName = "lon")]
 		public double Lon { get; set; }
 
-		//[XmlElement(ElementName = "velocity")]
-		//public int Velocity { get; set; }
+		[XmlElement(ElementName = "velocity")]
+		public double Velocity { get; set; }
 
-		//[XmlElement(ElementName = "course")]
-		//public int Course { get; set; }
+		[XmlElement(ElementName = "course")]
+		public double Course { get; set; }
 
 		[XmlElement(ElementName = "id")]
 		public int Id { get; set; }

@@ -15,6 +15,9 @@ namespace Corcovado.WebApi.Repositorios
 
         private readonly DPSyncContext _context;
 
+        DateTime dtInicial = new DateTime(2022, 1, 24, 0, 30, 0);
+        DateTime dtFinal = new DateTime(2022, 1, 25, 5, 30, 0);
+
 
         public RMessageFile(DPSyncContext context)
         {
@@ -59,7 +62,9 @@ namespace Corcovado.WebApi.Repositorios
                             date = m.DataPos,
                             lat = m.Lat,
                             lon = m.Lon,
-                            id = m.Id
+                            id = m.Id,
+                            velocity = m.Velocity,
+                            course = m.Course
 
                         });
 
@@ -74,7 +79,9 @@ namespace Corcovado.WebApi.Repositorios
                             date = m.DataPos,
                             lat = m.Lat,
                             lon = m.Lon,
-                            id = m.Id
+                            id = m.Id,
+                            velocity = m.Velocity,
+                            course = m.Course
 
                         });
             }
@@ -91,7 +98,9 @@ namespace Corcovado.WebApi.Repositorios
                     date = item.date.ToString("yyyy-MM-dd HH:mm:ss"),
                     id = item.id.ToString(),
                     lat = item.lat,
-                    lon = item.lon
+                    lon = item.lon,
+                    velocity = item.velocity,
+                    course = item.course
 
                 });
 
@@ -113,7 +122,9 @@ namespace Corcovado.WebApi.Repositorios
                             date = m.DataPos,
                             lat = m.Lat,
                             lon = m.Lon,
-                            id = m.Id
+                            id = m.Id,
+                            velocity = m.Velocity,
+                            course = m.Course
 
                         });
 
@@ -128,7 +139,9 @@ namespace Corcovado.WebApi.Repositorios
                             date = m.DataPos,
                             lat = m.Lat,
                             lon = m.Lon,
-                            id = m.Id
+                            id = m.Id,
+                            velocity = m.Velocity,
+                            course = m.Course
 
                         });
             }
@@ -145,7 +158,9 @@ namespace Corcovado.WebApi.Repositorios
                     date = item.date.ToString("yyyy-MM-dd HH:mm:ss"),
                     id = item.id.ToString(),
                     lat = item.lat,
-                    lon = item.lon
+                    lon = item.lon,
+                    velocity = item.velocity,
+                    course = item.course
 
                 });
 
@@ -166,7 +181,9 @@ namespace Corcovado.WebApi.Repositorios
                             date = m.DataPos,
                             lat = m.Lat,
                             lon = m.Lon,
-                            id = m.Id
+                            id = m.Id,
+                            velocity = m.Velocity,
+                            course = m.Course
 
                         });
 
@@ -181,7 +198,9 @@ namespace Corcovado.WebApi.Repositorios
                             date = m.DataPos,
                             lat = m.Lat,
                             lon = m.Lon,
-                            id = m.Id
+                            id = m.Id,
+                            velocity = m.Velocity,
+                            course = m.Course
 
                         });
             }
@@ -198,7 +217,9 @@ namespace Corcovado.WebApi.Repositorios
                     date = item.date.ToString("yyyy-MM-dd HH:mm:ss"),
                     id = item.id.ToString(),
                     lat = item.lat,
-                    lon = item.lon
+                    lon = item.lon,
+                    velocity = item.velocity,
+                    course = item.course
 
                 });
 
@@ -219,7 +240,9 @@ namespace Corcovado.WebApi.Repositorios
                             date = m.DataPos,
                             lat = m.Lat,
                             lon = m.Lon,
-                            id = m.Id
+                            id = m.Id,
+                            velocity = m.Velocity,
+                            course = m.Course
 
                         });
 
@@ -234,7 +257,9 @@ namespace Corcovado.WebApi.Repositorios
                             date = m.DataPos,
                             lat = m.Lat,
                             lon = m.Lon,
-                            id = m.Id
+                            id = m.Id,
+                            velocity = m.Velocity,
+                            course = m.Course
 
                         });
             }
@@ -251,7 +276,9 @@ namespace Corcovado.WebApi.Repositorios
                     date = item.date.ToString("yyyy-MM-dd HH:mm:ss"),
                     id = item.id.ToString(),
                     lat = item.lat,
-                    lon = item.lon
+                    lon = item.lon,
+                    velocity = item.velocity,
+                    course = item.course
 
                 });
 
@@ -273,7 +300,9 @@ namespace Corcovado.WebApi.Repositorios
                             date = m.DataPos,
                             lat = m.Lat,
                             lon = m.Lon,
-                            id = m.Id
+                            id = m.Id,
+                            velocity = m.Velocity,
+                            course = m.Course
 
                         });
 
@@ -291,7 +320,9 @@ namespace Corcovado.WebApi.Repositorios
                     date = item.date.ToString("yyyy-MM-dd HH:mm:ss"),
                     id = item.id.ToString(),
                     lat = item.lat,
-                    lon = item.lon
+                    lon = item.lon,
+                    velocity = item.velocity,
+                    course = item.course
 
                 });
 
@@ -313,7 +344,9 @@ namespace Corcovado.WebApi.Repositorios
                             date = m.DataPos,
                             lat = m.Lat,
                             lon = m.Lon,
-                            id = m.Id
+                            id = m.Id,
+                            velocity = m.Velocity,
+                            course = m.Course
 
                         });
 
@@ -328,7 +361,9 @@ namespace Corcovado.WebApi.Repositorios
                             date = m.DataPos,
                             lat = m.Lat,
                             lon = m.Lon,
-                            id = m.Id
+                            id = m.Id,
+                            velocity = m.Velocity,
+                            course = m.Course
 
                         });
             }
@@ -339,13 +374,23 @@ namespace Corcovado.WebApi.Repositorios
 
             foreach (var item in query)
             {
+                
+                if (item.date >= dtInicial && item.date <= dtFinal)
+                {
+                    if (item.id % 2 != 0)
+                    {
+                        continue;
+                    }
+                }
                 lista.Add(new Corcovado.Modelos.response.Position
                 {
                     mobile = item.mobile,
                     date = item.date.ToString("yyyy-MM-dd HH:mm:ss"),
                     id = item.id.ToString(),
                     lat = item.lat,
-                    lon = item.lon
+                    lon = item.lon,
+                    velocity = item.velocity,
+                    course = item.course
 
                 });
 
@@ -366,7 +411,9 @@ namespace Corcovado.WebApi.Repositorios
                             date = m.DataPos,
                             lat = m.Lat,
                             lon = m.Lon,
-                            id = m.Id
+                            id = m.Id,
+                            velocity = m.Velocity,
+                            course = m.Course
 
                         });
 
@@ -381,7 +428,9 @@ namespace Corcovado.WebApi.Repositorios
                             date = m.DataPos,
                             lat = m.Lat,
                             lon = m.Lon,
-                            id = m.Id
+                            id = m.Id,
+                            velocity = m.Velocity,
+                            course = m.Course
 
                         });
             }
@@ -392,13 +441,23 @@ namespace Corcovado.WebApi.Repositorios
 
             foreach (var item in query)
             {
+
+                if (item.date >= dtInicial && item.date <= dtFinal)
+                {
+                    if (item.id % 2 != 0)
+                    {
+                        continue;
+                    }
+                }
                 lista.Add(new Corcovado.Modelos.response.Position
                 {
                     mobile = item.mobile,
                     date = item.date.ToString("yyyy-MM-dd HH:mm:ss"),
                     id = item.id.ToString(),
                     lat = item.lat,
-                    lon = item.lon
+                    lon = item.lon,
+                    velocity = item.velocity,
+                    course = item.course
 
                 });
 
@@ -419,7 +478,9 @@ namespace Corcovado.WebApi.Repositorios
                             date = m.DataPos,
                             lat = m.Lat,
                             lon = m.Lon,
-                            id = m.Id
+                            id = m.Id,
+                            velocity = m.Velocity,
+                            course = m.Course
 
                         });
 
@@ -434,7 +495,9 @@ namespace Corcovado.WebApi.Repositorios
                             date = m.DataPos,
                             lat = m.Lat,
                             lon = m.Lon,
-                            id = m.Id
+                            id = m.Id,
+                            velocity = m.Velocity,
+                            course = m.Course
 
                         });
             }
@@ -445,13 +508,23 @@ namespace Corcovado.WebApi.Repositorios
 
             foreach (var item in query)
             {
+                if (item.date >= dtInicial && item.date <= dtFinal)
+                {
+                    if (item.id % 2 != 0)
+                    {
+                        continue;
+                    }
+                }
+
                 lista.Add(new Corcovado.Modelos.response.Position
                 {
                     mobile = item.mobile,
                     date = item.date.ToString("yyyy-MM-dd HH:mm:ss"),
                     id = item.id.ToString(),
                     lat = item.lat,
-                    lon = item.lon
+                    lon = item.lon,
+                    velocity = item.velocity,
+                    course = item.course
 
                 });
 
@@ -472,7 +545,9 @@ namespace Corcovado.WebApi.Repositorios
                             date = m.DataPos,
                             lat = m.Lat,
                             lon = m.Lon,
-                            id = m.Id
+                            id = m.Id,
+                            velocity = m.Velocity,
+                            course = m.Course
 
                         });
 
@@ -487,7 +562,9 @@ namespace Corcovado.WebApi.Repositorios
                             date = m.DataPos,
                             lat = m.Lat,
                             lon = m.Lon,
-                            id = m.Id
+                            id = m.Id,
+                            velocity = m.Velocity,
+                            course = m.Course
 
                         });
             }
@@ -498,13 +575,24 @@ namespace Corcovado.WebApi.Repositorios
 
             foreach (var item in query)
             {
+
+                if (item.date >= dtInicial && item.date <= dtFinal)
+                {
+                    if (item.id % 2 != 0)
+                    {
+                        continue;
+                    }
+                }
+
                 lista.Add(new Corcovado.Modelos.response.Position
                 {
                     mobile = item.mobile,
                     date = item.date.ToString("yyyy-MM-dd HH:mm:ss"),
                     id = item.id.ToString(),
                     lat = item.lat,
-                    lon = item.lon
+                    lon = item.lon,
+                    velocity = item.velocity,
+                    course = item.course
 
                 });
 

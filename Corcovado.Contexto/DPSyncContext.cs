@@ -12,6 +12,9 @@ namespace Corcovado.Contexto
 
     public class DPSyncContext : DbContext
     {
+        //homologacao =9
+        //producao=1
+        public static int servidor = 1;
         public DbSet<MessageFile> messageFiles { get; set; }
         public DbSet<Log> logs { get; set; }
         public DbSet<Barco> barcos { get; set; }
@@ -23,10 +26,22 @@ namespace Corcovado.Contexto
 
         public DbSet<LogNaoEncontradoProcessado> logNaoEncontradoProcessados { get; set; }
         public DbSet<LogPorcentagem> logPorcentagens { get; set; }
-
+        public DbSet<CalculoGeo> calculoGeos { get; set; }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseNpgsql("host=localhost;Port=5432;username=postgres;password=dalpiaz;database=db_dpsync");
+            if (servidor == 9)
+            {
+                optionsBuilder.UseNpgsql("host=localhost;Port=5432;username=postgres;password=dalpiaz;database=homologacao");
+            }
+            else if (servidor == 1)
+            {
+                optionsBuilder.UseNpgsql("host=localhost;Port=5432;username=postgres;password=dalpiaz;database=db_dpsync");
+            }
+            else
+            {
+                optionsBuilder.UseNpgsql("host=localhost;Port=5432;username=postgres;password=dalpiaz;database=XXXXXXXX");
+            }
+            
 
         }
 
@@ -52,6 +67,8 @@ namespace Corcovado.Contexto
             modelBuilder.Entity<MessageFile>().Property(p => p.Tipo).HasColumnName("tipo");
             modelBuilder.Entity<MessageFile>().Property(p => p.DataPos).HasColumnName("data_pos");
             modelBuilder.Entity<MessageFile>().Property(p => p.DataCriacao).HasColumnName("data_criacao");
+            modelBuilder.Entity<MessageFile>().Property(p => p.Velocity).HasColumnName("velocity");
+            modelBuilder.Entity<MessageFile>().Property(p => p.Course).HasColumnName("course");
             modelBuilder.Entity<MessageFile>().ToTable("tb_dpsync");
 
 
@@ -116,6 +133,61 @@ namespace Corcovado.Contexto
             modelBuilder.Entity<LogPorcentagem>().Property(p => p.Posicoes).HasColumnName("posicoes");
             modelBuilder.Entity<LogPorcentagem>().ToTable("tb_log_porcentagem");
 
+            modelBuilder.Entity<CalculoGeo>().HasKey(k => new { k.id, k.data_a, k.data_b });
+            modelBuilder.Entity<CalculoGeo>().Property(p => p._a).HasColumnName("_a");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p._b).HasColumnName("_b");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.lat_a).HasColumnName("lat_a");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.lat_b).HasColumnName("lat_b");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.lon_a).HasColumnName("lon_a");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.lon_b).HasColumnName("lon_b");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.data_a).HasColumnName("data_a");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.data_b).HasColumnName("data_b");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.fm_decimal).HasColumnName("fm_decimal");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.fm_grau).HasColumnName("fm_grau");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.fm_minuto).HasColumnName("fm_minuto");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.fm_segundo).HasColumnName("fm_segundo");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.df_segundo).HasColumnName("df_segundo");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.dl_segundo).HasColumnName("dl_segundo");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.NA).HasColumnName("na");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.MA).HasColumnName("ma");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.NB).HasColumnName("nb");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.X1).HasColumnName("x1");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.Y1).HasColumnName("y1");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.DE1).HasColumnName("de1");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.az_decimal).HasColumnName("az_decimal");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.az_grau).HasColumnName("az_grau");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.az_minuto).HasColumnName("az_minuto");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.az_segundo).HasColumnName("az_segundo");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.B).HasColumnName("b");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.C).HasColumnName("c");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.D).HasColumnName("d");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.E).HasColumnName("e");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.K1).HasColumnName("k1");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.K2).HasColumnName("k2");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.K3).HasColumnName("k3");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.K4).HasColumnName("k4");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.K5).HasColumnName("k5");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.Y).HasColumnName("y");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.C1).HasColumnName("c1");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.C2).HasColumnName("c2");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.A1B).HasColumnName("a1b");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.W).HasColumnName("w");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.X).HasColumnName("x");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.distancia_m).HasColumnName("distancia_m");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.contra_azimute_decimal).HasColumnName("contra_azimute_decimal");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.contra_azimute_grau).HasColumnName("contra_azimute_grau");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.contra_azimute_minuto).HasColumnName("contra_azimute_minuto");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.contra_azimute_segundo).HasColumnName("contra_azimute_segundo");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.azimute_b_decimal).HasColumnName("azimute_b_decimal");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.azimute_b_grau).HasColumnName("azimute_b_grau");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.azimute_b_minuto).HasColumnName("azimute_b_minuto");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.azimute_b_segundo).HasColumnName("azimute_b_segundo");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.rumo_gds).HasColumnName("rumo_gds");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.quadrante).HasColumnName("quadrante");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.dif_hora).HasColumnName("dif_hora");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.velocidade_km).HasColumnName("velocidade_km");
+            modelBuilder.Entity<CalculoGeo>().Property(p => p.velocidade_knots).HasColumnName("velocidade_knots");
+            modelBuilder.Entity<CalculoGeo>().ToTable("tb_calculo_geo");
 
         }
 

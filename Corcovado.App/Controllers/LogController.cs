@@ -154,8 +154,16 @@ namespace Corcovado.App.Controllers
                             logPorcentagem.DataAlteracao = DateTime.Now;
                             ctx.Update<LogPorcentagem>(logPorcentagem);
                         }
-
-                        string caminho_txt = @"D:\Dados_das_Embarcacoes\LOG_PORCENTAGEM\";
+                        string caminho_txt = "";
+                        if (DPSyncContext.servidor==1)
+                        {
+                            caminho_txt = @"D:\Dados_das_Embarcacoes\LOG_PORCENTAGEM\";
+                        }
+                        else if (DPSyncContext.servidor ==9)
+                        {
+                            caminho_txt = @"C:\Dados_das_Embarcacoes\LOG_PORCENTAGEM\";
+                        }
+                       
 
                         if (!Directory.Exists(caminho_txt))
                             Directory.CreateDirectory(caminho_txt);
